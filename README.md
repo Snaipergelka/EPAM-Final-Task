@@ -1,6 +1,6 @@
 # EPAM-Final-Task: API for indexing folders and files
 
-#About
+# About
 The main idea of this project is to implement a service which can collect 
 aggregated statistics for a particular folder.
 
@@ -12,13 +12,13 @@ You can get the following statistics:
 - vowels and consonants statistics,
 - syllables statistics.
 
-#How to start
+# How to start
 To start this application you need to start docker compose by command: 
 ```
 docker-compose up
 ```
 
-#Supported features and examples of use
+# Supported features and examples of use
 The service provides an API you can interact with
 ## Show supported extensions 
 ```
@@ -41,7 +41,7 @@ Example:
     "extensions": [".py", ".txt"]
 }
 ```
-## Show information about all folders: 
+## Show information about all folders
 ```
 GET /api/directory
 ```
@@ -60,7 +60,7 @@ Also, you can get an example of a slug via `GET /api/directory`
 ```
 GET /api/file
 ```
-## Show information about specific file: 
+## Show information about specific file
 ```
 GET /api/file/slugged_file_path
 ```
