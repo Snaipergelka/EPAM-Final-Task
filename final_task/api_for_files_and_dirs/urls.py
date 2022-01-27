@@ -23,8 +23,10 @@ urlpatterns = [
          name='word_statistic'),
 
     path('supported_extensions',
-         views.show_acceptable_extensions),
+         views.show_acceptable_extensions,
+         name='supported_extension'),
 
-    path('choose_extension',
-         views.choose_extensions_to_analyze)
+    path('start',
+         views.choose_extensions_to_analyze,
+         name='start_analyze')
 ]

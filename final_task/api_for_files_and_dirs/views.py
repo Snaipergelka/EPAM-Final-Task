@@ -46,7 +46,7 @@ def show_acceptable_extensions(request):
 def choose_extensions_to_analyze(request):
     if request.method == "POST":
 
-        analyze_folder_and_save_results(".", json.loads(request.body)["extensions"], repeat=10)
+        analyze_folder_and_save_results(json.loads(request.body)["directory"], json.loads(request.body)["extensions"], repeat=10)
 
         return JsonResponse({
             "result": "started calculation"

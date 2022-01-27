@@ -15,11 +15,3 @@ class DirectorySerializer(serializers.HyperlinkedModelSerializer):
         fields = ['directory_name', 'slug', 'files_and_dirs', 'number_of_files',
                   'most_recent_word', 'least_recent_word',
                   'average_word_length', 'vowels', 'consonants']
-
-
-class WordSerializer(serializers.Serializer):
-    word = serializers.CharField(max_length=50)
-    number_of_letters = serializers.IntegerField()
-    vowels = serializers.JSONField()
-    consonants = serializers.JSONField()
-    syllables = serializers.JSONField()

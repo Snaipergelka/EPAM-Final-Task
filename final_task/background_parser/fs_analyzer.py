@@ -10,12 +10,13 @@ from background_parser.walker import get_walker
 from background_parser.models import FileStatistic, DirectoryStatistic
 
 
-def check_difference_in_structure(folder, extensions):
+def check_difference_in_structure(folder: str, extensions: List[str]):
     """
-    REturns True if there is a change
-    :param folder:
-    :param extensions:
-    :return:
+    Returns True if there is a change in directory structure.
+    :param str folder: Folder path.
+    :param str extensions: File path.
+    :return: True if there is any change in directory structure.
+    :rtype: bool
     """
     old_files = set([f['file'] for f in list(FileStatistic.objects.values("file"))])
     old_dirs = set([f['directory_name'] for f in list(DirectoryStatistic.objects.values("directory_name"))])
@@ -33,11 +34,12 @@ def check_difference_in_structure(folder, extensions):
 @background(schedule=1)
 def analyze_folder_and_save_results(base_path: str, file_extensions: List[str]):
     """
-    Анализирует папку и все ее подпапки по заданным критериям.
-    Также сохраняет статистики в базу банных.
-    :param file_extensions:
-    :param base_path:
-    :return:
+    Analyzes directory with all subdirectories in all criteria.
+    Also saves statistics to data base.
+    :param List file_extensions:
+    :param str base_path:
+    :return: folder statistic
+    :rtype: FolderStatisticAggregator
     """
     stats: Dict[str, FolderStatisticAggregator] = {}
     logger = logging.getLogger(__name__)
