@@ -1,0 +1,8 @@
+Django~=3.2.10
+pyphen~=0.12.0
+psycopg2>=2.8
+django-background-tasks
+djangorestframework
+textract
+flake8
+isort
