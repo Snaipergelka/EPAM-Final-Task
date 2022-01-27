@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from background_parser.models import DirectoryStatistic, FileStatistic
+from rest_framework import serializers
 
 
 class FileSerializer(serializers.HyperlinkedModelSerializer):
