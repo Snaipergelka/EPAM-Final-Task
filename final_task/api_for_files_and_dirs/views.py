@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 
-from api_for_files_and_dirs.serializers import FileSerializer, DirectorySerializer, WordSerializer
+from api_for_files_and_dirs.serializers import FileSerializer, DirectorySerializer
 from background_parser.fs_analyzer import analyze_folder_and_save_results
 from background_parser.models import FileStatistic, DirectoryStatistic
 from background_parser.parser import WordStatistic

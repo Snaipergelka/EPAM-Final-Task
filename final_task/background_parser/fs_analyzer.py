@@ -53,17 +53,17 @@ def analyze_folder_and_save_results(base_path: str, file_extensions: List[str]):
     for path, folders, files in get_walker(base_path, file_extensions):
 
         """
-        Учитывая, что мы обходим снизу вверх означает, что если у нас есть дочерние папки, то они уже создали нам ключ, 
-        и отдали туда свою статистику. Нам осталось только добавить ее статистикой своих файлов.  
+        We are iterating bottom-up, it means that if the folder has sub-folders, 
+        their statistic is already collected and stored under this folder's key.  
         """
         folder_stat = stats.pop(path) if folders else FolderStatisticAggregator()
 
-        # считаем статистику по нашим файлам
+        # calculate stats for files
         files_stat = FilesStatisticAggregator(
             files=[FileAnalyzer(os.path.join(path, f)) for f in files]
         ).calculate_and_aggregate_statistic()
 
-        # добавляем эту статистику к уже имеющейся по папке в целом
+        # adding files statistic
         folder_stat.add_files_statistic(files_stat)
         folder_stat.add_files_and_folders_info(
             [os.path.join(path, f) for f in files],
@@ -72,15 +72,17 @@ def analyze_folder_and_save_results(base_path: str, file_extensions: List[str]):
 
         folder_stat.save_stat(path)
         if path == base_path:
-            # мы только что объединили всю статистику по подпапкам и файлам для базовой папки
             base_folder_stat = folder_stat
 
-        # теперь нужно отдать свою статистику родителю
+        # merge our statistic with statistic of a parent
         parent, _ = os.path.split(path)
 
         if parent not in stats:
             """
-            Нужно проверить первые ли мы пытаемся отдать свою статистику родителю, если да, то нужно завести его
+            The check is needed if the parent exists, if not that 
+            it's the first sub-folder which tries to merge it's 
+            statistic, FolderStatisticAggregator should be created 
+            first.
             """
             stats[parent] = FolderStatisticAggregator()
 

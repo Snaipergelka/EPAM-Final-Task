@@ -12,4 +12,7 @@ def get_content(filename: str):
     if extension in [".txt", ".py"]:
         return open(filename).read()
     else:
-        return textract.process(filename).decode("utf-8")
+        try:
+            return textract.process(filename).decode("utf-8")
+        except Exception :
+            return ""
