@@ -4,7 +4,9 @@ from django.db import models
 
 
 class DirectoryStatistic(models.Model):
-    slug = models.SlugField(primary_key=True, default="default", max_length=100)
+    slug = models.SlugField(primary_key=True,
+                            default="default",
+                            max_length=100)
     directory_name = models.CharField(max_length=100)
     files_and_dirs = models.JSONField()
     number_of_files = models.IntegerField()
@@ -17,7 +19,9 @@ class DirectoryStatistic(models.Model):
 
 
 class FileStatistic(models.Model):
-    slug = models.SlugField(primary_key=True, default="default", max_length=100)
+    slug = models.SlugField(primary_key=True,
+                            default="default",
+                            max_length=100)
     file = models.CharField(max_length=100)
     most_recent_word = models.CharField(max_length=1000)
     least_recent_word = models.CharField(max_length=1000)

@@ -14,5 +14,5 @@ def get_content(filename: str):
     else:
         try:
             return textract.process(filename).decode("utf-8")
-        except Exception :
+        except Exception:
             return ""

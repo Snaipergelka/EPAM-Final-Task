@@ -1,7 +1,7 @@
 import re
+import string
 from collections import Counter
 from itertools import chain
-import string
 from typing import Optional
 
 import pyphen
@@ -79,7 +79,9 @@ class FileParser:
     """
     def __init__(self, text_from_file):
         self.text = text_from_file
-        self.full_file_stat, self.counter_of_all_words = self.get_all_file_statistic()
+        self.full_file_stat, self.counter_of_all_words = \
+            self.get_all_file_statistic()
+
         self.get_most_and_least_common_words()
 
     def get_all_file_statistic(self) -> tuple:
@@ -108,8 +110,9 @@ class FileParser:
                 ru_words.update([token.value])
 
         total_number_of_words = sum(en_words.values()) + sum(ru_words.values())
-        file_stat_dict["average_word_length"] = (file_stat_dict['average_word_length'] /
-                                                 total_number_of_words) if total_number_of_words else 0
+        file_stat_dict["average_word_length"] = (
+                file_stat_dict['average_word_length'] /
+                total_number_of_words) if total_number_of_words else 0
 
         return file_stat_dict, [ru_words, en_words]
 
@@ -123,15 +126,23 @@ class FileParser:
         least_common = []
 
         if len(ru_words) + len(en_words) != 0:
-            min_freq = min(freq for word, freq in chain(ru_words.items(), en_words.items()))
-            max_freq = max(freq for word, freq in chain(ru_words.items(), en_words.items()))
+            min_freq = min(freq for word, freq in
+                           chain(ru_words.items(), en_words.items()))
+            max_freq = max(freq for word, freq in
+                           chain(ru_words.items(), en_words.items()))
 
-            least_common = [word for word, freq in chain(ru_words.items(), en_words.items())
+            least_common = [word for word, freq in
+                            chain(ru_words.items(), en_words.items())
                             if freq == min_freq][:3]
-            most_common = [word for word, freq in chain(ru_words.items(), en_words.items())
+            most_common = [word for word, freq in
+                           chain(ru_words.items(), en_words.items())
                            if freq == max_freq][:3]
 
-        self.full_file_stat.update({"most_recent_word": most_common, "least_recent_word": least_common})
+        self.full_file_stat.update(
+            {
+                "most_recent_word": most_common,
+                "least_recent_word": least_common
+            })
 
     def return_full_file_statistics(self) -> dict:
         """

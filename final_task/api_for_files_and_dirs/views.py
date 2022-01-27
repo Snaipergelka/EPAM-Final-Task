@@ -4,9 +4,10 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 
-from api_for_files_and_dirs.serializers import FileSerializer, DirectorySerializer
+from api_for_files_and_dirs.serializers import (DirectorySerializer,
+                                                FileSerializer)
 from background_parser.fs_analyzer import analyze_folder_and_save_results
-from background_parser.models import FileStatistic, DirectoryStatistic
+from background_parser.models import DirectoryStatistic, FileStatistic
 from background_parser.parser import WordStatistic
 
 
@@ -46,7 +47,10 @@ def show_acceptable_extensions(request):
 def choose_extensions_to_analyze(request):
     if request.method == "POST":
 
-        analyze_folder_and_save_results(json.loads(request.body)["directory"], json.loads(request.body)["extensions"], repeat=10)
+        analyze_folder_and_save_results(
+            json.loads(request.body)["directory"],
+            json.loads(request.body)["extensions"],
+            repeat=10)
 
         return JsonResponse({
             "result": "started calculation"

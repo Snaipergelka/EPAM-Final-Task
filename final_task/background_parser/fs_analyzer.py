@@ -1,13 +1,14 @@
 import logging
 import os
-from typing import List, Dict
+from typing import Dict, List
 
 from background_task import background
 
-from background_parser.aggregators import FolderStatisticAggregator, FilesStatisticAggregator
+from background_parser.aggregators import (FilesStatisticAggregator,
+                                           FolderStatisticAggregator)
 from background_parser.file_analyzer import FileAnalyzer
+from background_parser.models import DirectoryStatistic, FileStatistic
 from background_parser.walker import get_walker
-from background_parser.models import FileStatistic, DirectoryStatistic
 
 
 def check_difference_in_structure(folder: str, extensions: List[str]):
@@ -18,8 +19,10 @@ def check_difference_in_structure(folder: str, extensions: List[str]):
     :return: True if there is any change in directory structure.
     :rtype: bool
     """
-    old_files = set([f['file'] for f in list(FileStatistic.objects.values("file"))])
-    old_dirs = set([f['directory_name'] for f in list(DirectoryStatistic.objects.values("directory_name"))])
+    old_files = set([f['file'] for f in list(
+        FileStatistic.objects.values("file"))])
+    old_dirs = set([f['directory_name'] for f in list(
+        DirectoryStatistic.objects.values("directory_name"))])
 
     new_files = set()
     new_dirs = set()
@@ -32,7 +35,9 @@ def check_difference_in_structure(folder: str, extensions: List[str]):
 
 
 @background(schedule=1)
-def analyze_folder_and_save_results(base_path: str, file_extensions: List[str]):
+def analyze_folder_and_save_results(
+        base_path: str,
+        file_extensions: List[str]):
     """
     Analyzes directory with all subdirectories in all criteria.
     Also saves statistics to data base.
@@ -52,11 +57,11 @@ def analyze_folder_and_save_results(base_path: str, file_extensions: List[str]):
 
     for path, folders, files in get_walker(base_path, file_extensions):
 
-        """
-        We are iterating bottom-up, it means that if the folder has sub-folders, 
-        their statistic is already collected and stored under this folder's key.  
-        """
-        folder_stat = stats.pop(path) if folders else FolderStatisticAggregator()
+        # We are iterating bottom-up, it means that if the
+        # folder has sub-folders, their statistic is already
+        # collected and stored under this folder's key.
+        folder_stat = stats.pop(path) if folders else \
+            FolderStatisticAggregator()
 
         # calculate stats for files
         files_stat = FilesStatisticAggregator(
@@ -78,12 +83,12 @@ def analyze_folder_and_save_results(base_path: str, file_extensions: List[str]):
         parent, _ = os.path.split(path)
 
         if parent not in stats:
-            """
-            The check is needed if the parent exists, if not that 
-            it's the first sub-folder which tries to merge it's 
-            statistic, FolderStatisticAggregator should be created 
-            first.
-            """
+
+            # The check is needed if the parent exists, if not that
+            # it's the first sub-folder which tries to merge it's
+            # statistic, FolderStatisticAggregator should be created
+            # first.
+
             stats[parent] = FolderStatisticAggregator()
 
         # добавляем нашу статистику в статистику родителя
@@ -91,4 +96,3 @@ def analyze_folder_and_save_results(base_path: str, file_extensions: List[str]):
 
     logger.info("Finished background task!")
     return base_folder_stat.get_stat()
-

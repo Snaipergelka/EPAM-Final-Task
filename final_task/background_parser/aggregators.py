@@ -1,5 +1,5 @@
 from collections import Counter
-from typing import List, Dict
+from typing import Dict, List
 
 from background_parser.file_analyzer import FileAnalyzer
 from background_parser.models import DirectoryStatistic
@@ -22,10 +22,16 @@ class ContentStatistic:
     def merge_statistic(self, stat: Dict):
         content_keys = self.__content_stat.keys()
 
-        self.__content_stat.update({k: v for k, v in stat.items() if k in content_keys})
+        self.__content_stat.update(
+            {
+                k: v for k, v in stat.items()
+                if k in content_keys
+            })
 
-        amount_of_words = sum(stat["en_word_freq"].values()) + sum(stat["ru_word_freq"].values())
-        total = self.__average_content_stat['amount_of_words'] + amount_of_words
+        amount_of_words = (sum(stat["en_word_freq"].values()) +
+                           sum(stat["ru_word_freq"].values()))
+        total = (self.__average_content_stat['amount_of_words'] +
+                 amount_of_words)
 
         if total == 0:
             return
@@ -70,16 +76,20 @@ class FolderStatisticAggregator:
 
     def add_files_statistic(self, stat: Dict):
         """
-        Adds statistic from files which are in the folder itself. (not in the sub-folders)
+        Adds statistic from files which are in the folder itself.
+        (not in the sub-folders)
         """
         self.__content_statistic.merge_statistic(stat)
 
-    def add_children_folder_stat(self, sub_folders_stats: 'FolderStatisticAggregator'):
+    def add_children_folder_stat(
+            self,
+            sub_folders_stats: 'FolderStatisticAggregator'):
         """
         Adds statistics from sub-folders
         """
         self.__merge_folder_statistic(sub_folders_stats.get_stat())
-        self.__content_statistic.merge_statistic(sub_folders_stats.get_content_content_statistics())
+        self.__content_statistic.merge_statistic(
+            sub_folders_stats.get_content_content_statistics())
 
     def add_files_and_folders_info(self, files: List[str], dirs: List[str]):
 
@@ -92,7 +102,10 @@ class FolderStatisticAggregator:
             self.__folder_statistic[k] = self.__folder_statistic[k] + stat[k]
 
     def get_stat(self):
-        return {**self.__content_statistic.get_statistic(), **self.__folder_statistic}
+        return {
+            **self.__content_statistic.get_statistic(),
+            **self.__folder_statistic
+        }
 
     def get_content_content_statistics(self):
         return self.__content_statistic.get_statistic()
