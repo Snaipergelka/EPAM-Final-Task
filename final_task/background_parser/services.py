@@ -2,13 +2,12 @@ import logging
 import os
 from typing import Dict, List
 
-from background_task import background
-
 from background_parser.aggregators import (FilesStatisticAggregator,
                                            FolderStatisticAggregator)
 from background_parser.file_analyzer import FileAnalyzer
 from background_parser.models import DirectoryStatistic, FileStatistic
 from background_parser.walker import get_walker
+from background_task import background
 
 
 def check_difference_in_structure(folder: str, extensions: List[str]):

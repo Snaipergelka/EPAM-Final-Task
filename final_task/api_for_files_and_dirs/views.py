@@ -1,14 +1,13 @@
 import json
 
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework import viewsets
-
 from api_for_files_and_dirs.serializers import (DirectorySerializer,
                                                 FileSerializer)
 from background_parser.models import DirectoryStatistic, FileStatistic
 from background_parser.parser import WordStatistic
 from background_parser.services import analyze_folder_and_save_results
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import viewsets
 
 
 class FileViewSet(viewsets.ModelViewSet):
