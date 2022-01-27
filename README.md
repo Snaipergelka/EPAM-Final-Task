@@ -26,7 +26,7 @@ GET /api/supported_extensions
 ```
 ## Start folder analyze 
 ```
-POST api/start
+POST /api/start
 ```
 You should pass JSON in the following format 
 ```
