@@ -18,6 +18,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("background/", include("background_parser.urls")),
     path("api/", include("api_for_files_and_dirs.urls"))
 ]

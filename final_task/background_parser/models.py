@@ -15,7 +15,7 @@ class DirectoryStatistic(models.Model):
     average_word_length = models.FloatField()
     vowels = models.JSONField()
     consonants = models.JSONField()
-    syllables = models.JSONField(default={})
+    syllables = models.JSONField(default=dict)
 
 
 class FileStatistic(models.Model):
@@ -28,4 +28,4 @@ class FileStatistic(models.Model):
     average_word_length = models.FloatField()
     vowels = models.JSONField()
     consonants = models.JSONField()
-    syllables = models.JSONField(default={})
+    syllables = models.JSONField(default=dict)

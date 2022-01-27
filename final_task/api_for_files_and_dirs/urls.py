@@ -5,7 +5,6 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'file', views.FileViewSet)
 router.register(r'directory', views.DirectoryViewSet)
-router.register(r'word', views.WordVS, basename="WordStat")
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -18,7 +17,7 @@ urlpatterns = [
          name="number_of_files"),
 
     path('word/<str:word>',
-         views.WordVS.get,
+         views.get_word_statistic,
          name='word_statistic'),
 
     path('supported_extensions',

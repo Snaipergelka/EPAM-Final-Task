@@ -2,7 +2,7 @@ import json
 
 from api_for_files_and_dirs.serializers import (DirectorySerializer,
                                                 FileSerializer)
-from background_parser.fs_analyzer import analyze_folder_and_save_results
+from background_parser.services import analyze_folder_and_save_results
 from background_parser.models import DirectoryStatistic, FileStatistic
 from background_parser.parser import WordStatistic
 from django.http import JsonResponse
@@ -20,18 +20,16 @@ class DirectoryViewSet(viewsets.ModelViewSet):
     serializer_class = DirectorySerializer
 
 
-class WordVS(viewsets.ViewSet):
+def get_word_statistic(request, word):
 
-    def get(self,  word):
-
-        if WordStatistic.validate_word(word) is None:
-            return JsonResponse({
-                word: "Word is not valid"
-            })
-        else:
-            word_init = WordStatistic(word)
-            stat = word_init.return_all_statistic_for_word()
-            return JsonResponse(stat)
+    if WordStatistic.validate_word(word) is None:
+        return JsonResponse({
+            word: "Word is not valid"
+        })
+    else:
+        word_init = WordStatistic(word)
+        stat = word_init.return_all_statistic_for_word()
+        return JsonResponse(stat)
 
 
 def show_acceptable_extensions(request):

@@ -34,11 +34,14 @@ You should pass JSON in the following format
     "directory": "str", 
     "extensions": ["str"]
 }
-
-Example:
+```
+### Example to perform test
+You can check that it actually works with this JSON. It will analyse 
+the project itself and Alexander Pushkin's books.
+```
 {
-    "directory": "test\final_task",
-    "extensions": [".py", ".txt"]
+    "directory": ".",
+    "extensions": [".py", ".txt", ".docx", ".pdf", ".epub", ".html"]
 }
 ```
 ## Show information about all folders: 
